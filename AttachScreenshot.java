@@ -4,8 +4,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -49,16 +47,24 @@ public class AttachScreenshot {
 	@Test
 	public void attachScreenshotTest() throws IOException {
 		
-		ExtentTest test = extent.createTest("First Test");
+		ExtentTest test = extent.createTest("Verify Page Title").assignAuthor("Subash").assignDevice("Windows").assignCategory("Functional Testing").assignDevice("ChromeBrowser");
+		extent.setSystemInfo("Environment", "QA");
 		WebDriverManager.chromedriver().setup();
 		driver = new ChromeDriver();
 		test.pass("Browser Opened");
-		driver.get("https://google.com");
-		driver.findElement(By.name("q")).sendKeys("AbdulKalam",Keys.ENTER);
-		test.pass("Value Entered", MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
-		test.assignAuthor("Mohan");
-		test.assignCategory("Smoke");
-		extent.setSystemInfo("Environment","QA");
+		driver.get("https://www.amazon.in/");
+		test.info("Capturing the page title");
+		String pagetitle = driver.getTitle();
+		
+		if(pagetitle.equals("Online Shopping site in India: Shop Online for Mobiles, Books, Watches, Shoes and More - Amazon.in")){
+			test.pass("Page Title is Matched "+pagetitle, MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());	
+		}else {
+			test.fail("Page Title is Matched "+pagetitle, MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
+		}
+		
+//		test.assignAuthor("Mohan");
+//		test.assignCategory("Smoke");
+//		extent.setSystemInfo("Environment","QA");
 		test.pass("Test Finished");
 	}
 	
