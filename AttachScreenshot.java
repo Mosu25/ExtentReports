@@ -56,6 +56,9 @@ public class AttachScreenshot {
 		driver.get("https://google.com");
 		driver.findElement(By.name("q")).sendKeys("AbdulKalam",Keys.ENTER);
 		test.pass("Value Entered", MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
+		test.assignAuthor("Mohan");
+		test.assignCategory("Smoke");
+		extent.setSystemInfo("Environment","QA");
 		test.pass("Test Finished");
 	}
 	
